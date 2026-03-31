@@ -1,0 +1,9 @@
+CHÚ THÍCH: 
+
+* include/ : Chứa các file Header (.h)
+
+* src/ : Chứa các file Source code (.cpp)
+
+* main.cpp : File chạy chính.
+
+* CMakeLists.txt : Cấu hình build.

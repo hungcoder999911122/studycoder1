@@ -1,0 +1,9 @@
+# Bỏ qua tất cả các thư mục build
+build/
+.vscode/
+bin/
+obj/
+
+# Bỏ qua các file thực thi
+*.exe
+*.out

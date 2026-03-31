@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.10)
+project(Task_3_Project)
+
+set(CMAKE_CXX_STANDARD 17)
+
+# CHỈ lấy các file .cpp ở thư mục ngoài, KHÔNG chui vào thư mục con (như build)
+file(GLOB SOURCES "*.cpp")
+
+# Nếu bạn để code trong thư mục src/ thì dùng dòng này:
+# file(GLOB SOURCES "src/*.cpp")
+
+add_executable(Task_3 ${SOURCES})
