@@ -32,3 +32,6 @@ int main()
     init();  //
     Try(0);
 }
+
+//khi một đường khám phá hoàn tất thì quay trở lại để thử lựa chọn khác (đó là backtracking). 
+//Trong chương trình của bạn, Try(int i) + vòng for chính là backtracking
