@@ -1,0 +1,9 @@
+Task 4: 
+Yêu cầu: 
++ Xác định xem mô hình nhập vào thuộc cấu trúc gì ? 
+
++ Thiết kế thuật toán Brute Force cho ma trận -- n x n (boolean)
+
++ Tính toán độ phức tạp thời gian  
+
++ n: Số lượng nút (n > 3)
