@@ -1,95 +1,52 @@
 #include <iostream>
 #include <vector>
-#include <string>
+#include <numeric>
+
 using namespace std;
 
+// Biến lưu trữ các quả cân đầu vào
+vector<int> weights;
+int n;
 
-
-string determineTopology(const  vector<vector<int>>& A, int n ){
-
-
-    vector<int> degree(n,0);
-
-    for(int i = 0; i<n; ++i){
-
-        for(int j= 0; j<n; ++j){
-
-            if (A[i][j]){
-
-                degree[i]++;
-            }
+void solve(int index, int leftSum, int rightSum, vector<int>& leftSide, vector<int>& rightSide) {
+    // Điều kiện dừng: Đã xét hết tất cả n quả cân
+    if (index == n) {
+        // Kiểm tra thăng bằng và phải có ít nhất 1 quả cân trên bàn
+        if (leftSum == rightSum && leftSum > 0) {
+            cout << "Cach dat: [Trai] ";
+            for (int w : leftSide) cout << w << " ";
+            cout << "== [Phai] ";
+            for (int w : rightSide) cout << w << " ";
+            cout << endl;
         }
+        return;
     }
-    // Tinh bac(degree) cua moi dinh
 
-    bool isMess = true;
+    // Lựa chọn 1: Bỏ vào đĩa TRÁI
+    leftSide.push_back(weights[index]);
+    solve(index + 1, leftSum + weights[index], rightSum, leftSide, rightSide);//index, leftSum, rightSum là các bản sao, tham số truyền vào , 
+                                                                            //còn left/right side vì có tham chiếu(thay đổi trực tiếp) nên phải làm thủ công 
+    leftSide.pop_back(); // Backtrack: lấy ra để thử lựa chọn khác
 
-    for (int i = 0; i<n; ++i){
+    // Lựa chọn 2: Bỏ vào đĩa PHẢI
+    rightSide.push_back(weights[index]);
+    solve(index + 1, leftSum, rightSum + weights[index], leftSide, rightSide);
+    rightSide.pop_back(); // Backtrack
 
-        if(degree[i] != n-1){
-            isMess= false;
-            break;
-        }
-    }
-    if(isMess) return "Fully connected mess!!!";
-    // TH: 1
-
-    bool isRing = true;
-
-    for (int i=0; i<n; ++i){
-        
-        if(degree[i]!=2){
-
-            isRing= false;
-            break;
-        }
-    }
-    if(isRing) return "Ring!!!";
-    //TH: 2
-
-    
-    int countCenter= 0;
-    int countLeaf= 0;
-
-    for (int i=0; i<n;++i){
-        
-        if(degree[i]==1 ) countLeaf++;
-        else if(degree[i]==n-1) countCenter++;
-
-        if (countCenter == 1 && countLeaf == n-1 ){
-           return "Start!!!";
-        }
-        //TH: 3
-
-    }
-    return "None of these!!!";
+    // Lựa chọn 3: KHÔNG DÙNG quả cân này
+    solve(index + 1, leftSum, rightSum, leftSide, rightSide);
 }
 
-int main (){
-    int n;
-    // determine d;
-    cout<<"Nhap so luong nut: ";
-    cin>>n;
+int main() {
+    cout << "Nhap so luong qua can n: ";
+    cin >> n;
+    weights.resize(n);
+    cout << "Nhap khoi luong cac qua can: ";
+    for (int i = 0; i < n; i++) cin >> weights[i];
 
-    if (n<=3){
-        cout<<"Nhap n > 3!!!"<<endl;
-        return 0;
-    }
-    
-    vector<vector<int>> A(n, vector<int>(n));
-    // Tao ma tran ke nxn
-
-    cout<<"Nhap ma tran ke(Nhap 0 hoac 1)"<<endl;
-    
-    for (int i=0; i<n; i++){
-        cout<<"Hang "<<i<<": ";
-        for (int j=0; j<n; j++){
-            cin>> A[i][j];
-        }
-    }
-
-    cout << "\nKet qua: " << determineTopology(A, n) << endl;
-    
+    vector<int> leftSide, rightSide;
+    cout << "\nCac phuong an thang bang tim duoc:\n";
+    solve(0, 0, 0, leftSide, rightSide);
 
     return 0;
 }
